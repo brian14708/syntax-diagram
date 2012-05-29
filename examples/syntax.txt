@@ -1,0 +1,38 @@
+
+diagram\ syntax := (
+    [char* ":="]                    # syntax title
+    data*
+)*<"====" "\n">
+
+====
+
+data := (
+     (char*)                        # non-terminal 
+    |(("\""|"\'") char* ("\""|"\'"))# terminal
+    |(data whitespace data)         # sequential lexical elements
+    |("\(" data "\)")               # group
+    |("\[" data "\]")               # optional elements
+    |(data "\*" ["\<" data "\>"])   # repeat and separator
+    |("\#" comment "\n")            # comment
+)
+
+====
+
+char := ( 
+     "a~z"
+    |"A~Z"
+    |(any\ character\ except\ whitespace\ and\ \<\>\|\(\)\*\"\')
+    |"0~9"
+    |"\\n"                          # newline
+    |"\\r"                          # carriage return
+    |"\\t"                          # tab
+    |("\\" any\ character\ except\ newlines)
+)
+
+====
+
+comment := (any\ character\ except\ newlines)*
+
+====
+
+whitespace := ("\ "|"\n"|"\r"|"\t") ()*<whitespace>

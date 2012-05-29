@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Syntax Diagram</title>
+    <script type="text/javascript" src="js/libs/raphael-min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="js/libs/canvg-1.0.js"></script>
+    <script type="text/javascript" src="js/libs/rgbcolor.js"></script>
+</head>
+<body>
+    <a href="https://github.com/atomble/syntax-diagram">Project Homepage</a>
+    <div>
+        <textarea id="code" rows="15" cols="125"></textarea>
+        <br />
+        <input type="button" class="button" value="Create Diagram" id="create" />
+    </div>
+
+    <div id="diagram"></div>
+    <div id="svg-support" style="display:none">
+        <textarea id="svg" rows="15" cols="125" readonly></textarea>
+        <div>
+            <div>
+                <input type="checkbox" class="checkbox" value="checked" id="enable-raster" />
+                Bitmap Rendering
+            </div>
+            <canvas id="canvas" height="10"></canvas>
+            <br />
+            <a id="dl" href="#" target="_blank"></a>
+        </div>
+    </div>
+	<script src="js/syntax-diagram.min.js"></script>
+    <script type="text/javascript" src="js/libs/coffee-script.js"></script>
+    <script type="text/coffeescript" src="src/syntax-diagram.coffee"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var supportsSvg = document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+
+            function enableRasterize() {
+                return !!$("#enable-raster").attr("checked");
+            }
+            if (supportsSvg) {
+                $("#svg-support").css("display", "block");
+            }
+            function submit() {
+                try {
+                    var d = SyntaxDiagram("diagram", $("#code").val());
+                    var svg = $("#diagram").html();
+                    $("#svg").val(svg);
+                    try {
+                        if (enableRasterize() && supportsSvg) {
+                            var canvas = document.getElementById("canvas");
+                            $(canvas).height(d.height).width(d.width);
+                            canvg(canvas, svg);
+
+                            var dl = document.getElementById("dl");
+                            dl.href = document.getElementById("canvas").toDataURL();
+                            dl.innerHTML = "Download";
+                        }
+                    } catch(e) {}
+                } catch (error) {
+                    alert(error);
+                }
+            }
+            $("#create").click(submit);
+            $('#code').keydown(function (e) {
+              if (e.ctrlKey && e.keyCode == 13) submit();
+            });
+        });
+    </script>
+</body>
+</html>
