@@ -12,10 +12,10 @@ Inspired by [http://www.json.org/](http://www.json.org/).
         \[\]\ \|        # escape special characters
         "terminal"
         non-terminal
-![](https://raw.github.com/atomble/syntax-diagram/master/examples/example.png)
+![](https://raw.github.com/brian14708/syntax-diagram/master/examples/example.png)
 
     Numbers := ["+"|"-"] ("0"|(1-9 0-9*)) ["." (0-9)*] [("e"|"E") ["+"|"-"] 0-9*]
-![](https://raw.github.com/atomble/syntax-diagram/master/examples/numbers.png)
+![](https://raw.github.com/brian14708/syntax-diagram/master/examples/numbers.png)
 
 ## Language for creating diagrams
 
@@ -56,7 +56,7 @@ Inspired by [http://www.json.org/](http://www.json.org/).
     ====
 
     whitespace := ("\ "|"\n"|"\r"|"\t") ()*<whitespace>
-![](https://raw.github.com/atomble/syntax-diagram/master/examples/syntax.png)
+![](https://raw.github.com/brian14708/syntax-diagram/master/examples/syntax.png)
 
 ## Usage
     window.SyntaxDiagram(*elem|elem-id*, *diagram-code*);
